@@ -8,6 +8,8 @@ from pprint import pformat as pf
 import time
 import datetime
 
+# to manipulate files
+import os
 
 # ===== discover the meter to use
 print("searching for a smart plug in the network...")
@@ -39,11 +41,26 @@ plug = SmartPlug(meterIP)
 #print("Current consumption: %s" % plug.get_emeter_realtime())
 
 # create a file 
-filename = "measured_%s.txt"  % datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
+filename = "measured_%s.csv"  % datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
+
 
 print("the measures will be stored in file: ", filename)
+
+try:
+    os.unlink("lastgraph.csv")
+except:
+    # ignore it
+    pass
+try:
+    os.symlink(filename, "lastgraph.csv")
+    print("you also can find the same content in link: lastgraph.csv")
+except e:
+    # ignore it
+    print(e)
+
 print()
-print("to graph the data, use: gnuplot -c draw.gnuplot %s" % filename)
+print("to graph the data, use: gnuplot draw.gnuplot")
+print()
 print("to stop data recording, just hit Ctrl+C")
 
 
@@ -53,6 +70,9 @@ with open(filename, 'a') as f:
     # write headers    
     f.write("year;month;day;hour;minute;seconds;timestamp;") 
     f.write("power;current;voltage;total\n")
+    f.flush()
+    os.fsync(f)
+
 
     # loop forever
     while True:

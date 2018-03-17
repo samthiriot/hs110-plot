@@ -14,7 +14,7 @@
 if (exist("ARG1")) {
     FILE = ARG1
 }
-FILE='measured_2018_03_17-15_52_06.txt'
+FILE='lastgraph.csv'
 
 print("will display the content of file")
 print(FILE)
@@ -48,6 +48,12 @@ plot FILE using 7:8 title 'power' with line, \
 # replot every second
 while (1) {
     replot
-    pause 1 # second
+    pause 1
 }
+
+set term png 
+set output "FILE.png"
+replot
+set term x11
+
 
