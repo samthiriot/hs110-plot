@@ -1,6 +1,3 @@
-# hs110-plot
-plot HS110 smart plugs (meters) using gnuplot
-
 # what it it?
 
 If you own a TP-Link HS110 smart plug, that is a plug equiped with a meter, then this provides a script 
