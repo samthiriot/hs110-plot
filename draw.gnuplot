@@ -15,6 +15,7 @@ if (exist("ARG1")) {
     FILE = ARG1
 }
 FILE='lastgraph.csv'
+set title "power and current in time"
 
 print("will display the content of file ".FILE."\n")
 print("will also export the graph in ".FILE.".png\n")
@@ -28,16 +29,24 @@ set datafile separator ";"
 
 # x range auto
 unset xrange 
+set xdata time
+set timefmt "%s"
+
+set format x "%H:%M:%S"
+# to add days:
+# set format x "%m/%d/%Y %H:%M:%S"
+
+set xtics auto
 
 # define ranges 
 set ytics 5 nomirror tc lt 1
-set ylabel 'V' tc lt 1
+set ylabel 'W' tc lt 1
 # automatic range 
 unset yrange
 #set yrange [210:250]
 
 set y2tics auto nomirror tc lt 2
-set y2label 'W' tc lt 2
+set y2label 'A' tc lt 2
 set y2range [0:*]
 
 
@@ -52,7 +61,7 @@ while (1) {
     replot
     set term push
 
-    set term png 
+    set term png size 1024,600 enhanced font 'Verdana,8'
     set output FILE.".png"
     replot
 
