@@ -16,9 +16,8 @@ if (exist("ARG1")) {
 }
 FILE='lastgraph.csv'
 
-print("will display the content of file")
-print(FILE)
-
+print("will display the content of file ".FILE."\n")
+print("will also export the graph in ".FILE.".png\n")
 
 print("to stop the update of the graph, hit Ctrl+C in the console (it's not that easy indeed ^^)")
 pause 2
@@ -26,6 +25,9 @@ pause 2
 
 # out data is semicolumn separated
 set datafile separator ";"
+
+# x range auto
+unset xrange 
 
 # define ranges 
 set ytics 5 nomirror tc lt 1
@@ -48,12 +50,16 @@ plot FILE using 7:8 title 'power' with line, \
 # replot every second
 while (1) {
     replot
+    set term push
+
+    set term png 
+    set output FILE.".png"
+    replot
+
+    set term pop
+
     pause 1
 }
 
-set term png 
-set output "FILE.png"
-replot
-set term x11
 
 
